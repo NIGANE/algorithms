@@ -159,6 +159,7 @@ int isBST(Node* root){
     int prev = INT_MIN;
     return isBstUtil(root, &prev);
 }
+//    print using deep first search
 void print_depth_first(Node* node){
     Node* process_stack[100];
     size_t process_stack_num = 0;
@@ -177,18 +178,28 @@ void print_depth_first(Node* node){
     }
 }
 
-int print_df_recursive(Node* node, int data){
-    if(node == NULL) return 0;
+//    deep first search :
+int dfs(Node *node, int data)
+{
+    int founded;
 
-    printf("%d ", node->data);
-    
-    if(node->data = data) printf("\nfound %d!\n", node->data);return 1;
-
-    if(node->left != NULL) print_df_recursive(node->left, data);
-    if(node->right != NULL) print_df_recursive(node->right, data);
-    return 0;
+    if (!node)
+        return (0);
+    if (node->data == data)
+    {
+        printf("found: %d\n", node->data);    
+        return (1);
+    }
+    founded = 0;
+    if (node->left)
+        founded = dfs(node->left, data);
+    if (founded == 1)
+        return (founded);
+    if (node->right)
+        founded = dfs(node->right, data);
+    return (founded);
 }
-
+//    print using breath first search :
 void print_breath_first(Node *node)
 {
     Node* process_queu[100];
@@ -205,6 +216,34 @@ void print_breath_first(Node *node)
             process_queu[add_num++] = curr->right;
         }
     }
+}
+//    breath first search :
+int bfs(Node *node, int data)
+{
+    Node* process_queu[100];
+    size_t reader_num;
+    size_t add_num;
+    Node*   cur;
+
+    reader_num = 0;
+    add_num = 0;
+    cur = node;
+    process_queu[add_num++] = node;
+    while(add_num > reader_num){
+        if (process_queu[reader_num]->data == data)
+        {
+            printf("founded: %d\n", process_queu[reader_num]->data);
+            return (1);
+        }
+        cur = process_queu[reader_num++];
+        if(cur->left){
+            process_queu[add_num++] = cur->left;
+        }
+        if(cur->right){
+            process_queu[add_num++] = cur->right;
+        }
+    }
+    return (0);
 }
 
 int isFull(Node* root)
